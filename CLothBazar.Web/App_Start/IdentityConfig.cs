@@ -10,9 +10,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using CLothBazar.Web.Models;
+using ClothBazar.Web.Models;
 
-namespace CLothBazar.Web
+namespace ClothBazar.Web
 {
     public class EmailService : IIdentityMessageService
     {

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CLothBazar.Web")]
+[assembly: AssemblyTitle("ClothBazar.Web")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CLothBazar.Web")]
+[assembly: AssemblyProduct("ClothBazar.Web")]
 [assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c90d4a01-f807-4925-a8ff-53e53cad7d92")]
+[assembly: Guid("46e7cf08-6b60-4a2d-8966-bda55be22897")]
 
 // Version information for an assembly consists of the following four values:
 //

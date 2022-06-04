@@ -10,7 +10,7 @@ namespace ClothBazar.database
 {
     public class CBContext : DbContext
     {
-        public CBContext() : base("ClothBazarDefaultConection")
+        public CBContext() : base("ClothBazar")
         {
 
         }

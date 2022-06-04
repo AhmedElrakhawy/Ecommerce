@@ -8,9 +8,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using CLothBazar.Web.Models;
+using ClothBazar.Web.Models;
 
-namespace CLothBazar.Web.Controllers
+namespace ClothBazar.Web.Controllers
 {
     [Authorize]
     public class AccountController : Controller

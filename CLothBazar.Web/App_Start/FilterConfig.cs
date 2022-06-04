@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace CLothBazar.Web
+namespace ClothBazar.Web
 {
     public class FilterConfig
     {

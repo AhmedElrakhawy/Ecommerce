@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CLothBazar.Web.Models
+namespace ClothBazar.Web.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
