@@ -5,14 +5,35 @@
 
 <div>
     <form method="post">
-        <input id="searchTxt" name="Search" />
-        <button type="submit" id="searchBtn">Search</button>
-    </form>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label>Search</label>
+                    <input class="form-control" id="searchTxt" name="Search" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Actions</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary form-control" type="submit" id="searchBtn">Search</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary form-control" type="button" id="newBtn">New</button>
+                        </div>
+                    </div>
 
-    <button type="submit" id="newBtn">New</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
 </div>
 <div id="TableContainer">
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <td>Product Name</td>
@@ -26,11 +47,21 @@
             {
                 <tr>
                     <td>@Product.Name</td>
-                    <td>_@*@Product.Category.Name*@</td>
+                    <td>
+                        @if (Product.Category != null)
+                        {
+                            <text>@Product.Category.Name</text>
+                        }
+                        else
+                        {
+                            <text>_</text>
+                        }
+                    </td>
                     <td>@Product.Price</td>
                     <td>
                         <button class="EditBtn" data-id="@Product.ID">Edit</button>
-                        <button class="DeleteBtn" data-id="@Product.ID" >Delete</button>
+                        <button class="DeleteBtn" data-id="@Product.ID">Delete</button>
+                        <button class="AddToCart" data-id="@Product.ID">AddToCart</button>
                     </td>
                 </tr>
             }
@@ -69,7 +100,7 @@
         $.ajax(
             {
                 type:"GET",
-                url: '@Url.Action("Edit","Product")',
+                url: '/Product/Edit' @*'@Url.Action("Edit","Product")'*@,
                 data: {
                     ID: $(this).attr('data-id')
                 },
@@ -79,25 +110,41 @@
                 fail: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("Fail")
                 }
-            
+
             });
     });
     $(".DeleteBtn").click(function () {
-        var ConfirmDelete = confirm("Are you want to delete this product ?")
-        if (ConfirmDelete) {
-            $.ajax(
-                {
-                    type: 'POST',
-                    url: '/Product/Delete',
-                    data: {
-                        ID: $(this).attr('data-id')
-                    }
-                }).done(function (response) {
-                    $("#TableContainer").html(response);
-                    location.reload();
-                }).fail(Function(function (XMLHttpRequest, testStatus, errorthrown) {
-                    alert("Fail");
-                }));
-        }
+        swal({
+  title: "Are you sure?",
+  text: "Do u Want to delete This Product ? ",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax(
+                    {
+                        type: 'POST',
+                        url: '/Product/Delete',
+                        data: {
+                            ID: $(this).attr('data-id')
+                        }
+                    }).done(function (response) {
+                        $("#TableContainer").html(response);
+                        swal("Product have been Deleted", {
+                            icon: "success",
+                        });
+                    }).fail(function (XMLHttpRequest, testStatus, errorthrown) {
+                        alert("Fail");
+                    });
+            }
+        })
     });
+    var Products = [];
+    $(".AddToCart").click(function () {
+        var ProductID = $(this).attr('data-id');
+        Products.push(ProductID);
+        $.cookie('cartProduct', Products.join('-'), { path : "/" });
+
+    })
 </script>

@@ -50,6 +50,10 @@
     <Compile Include="Migrations\202206062346341_AddingImageUrlToCategoryTable.Designer.cs">
       <DependentUpon>202206062346341_AddingImageUrlToCategoryTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202206131845304_AddingIsFeaturedColumnToCtegoryTable.cs" />
+    <Compile Include="Migrations\202206131845304_AddingIsFeaturedColumnToCtegoryTable.Designer.cs">
+      <DependentUpon>202206131845304_AddingIsFeaturedColumnToCtegoryTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -103,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202206062346341_AddingImageUrlToCategoryTable.resx">
       <DependentUpon>202206062346341_AddingImageUrlToCategoryTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202206131845304_AddingIsFeaturedColumnToCtegoryTable.resx">
+      <DependentUpon>202206131845304_AddingIsFeaturedColumnToCtegoryTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Create";
+    var ImageURL = "/Content/images/system/placeholder-image.png";
 }
 
 <h2>Create Category</h2>
@@ -14,13 +15,46 @@
     <br />
 
     <label>Image</label>
+    <input id="ImageUrl" name="ImageUrl" type="hidden" />
     <input id="imageUpload" name="Image" type="file" accept=".jpg , .png" />
+    <div class="thumb">
+        <img id="categoryimage" width="100" />
+    </div>
     <br />
+
+    <label>Is Featured ?</label>
+    <input type="radio" value="True" name="IsFeatured" /> True
+    <input type="radio" value="False" name="IsFeatured" /> False 
+    <br />
+
     <button type="submit">Save</button>
 </form>
 
 <script>
     $("#imageUpload").change(function () {
+        var element = this;
+        var formdata = new FormData();
+        var totalfile = element.files.length;
+        for (var i = 0; i < totalfile; i++) {
+            var file = element.files[i];
+            formdata.append("photo", file);
+        }
 
-    })
+        $.ajax({
+            type: 'POST',
+            url: '/Shared/UploadImage',
+            dataType:'json',
+            data: formdata,
+            contentType: false,
+            processData: false
+        }).done(function (response) {
+            console.log(response);
+            if (response.Success) {
+                $("#categoryimage").attr("src", response.ImageURL);
+                $("#ImageUrl").val(response.ImageURL);
+            }
+        }).fail(function (XMLHttpRequest, testStatus, errorThrown) {
+            alert("Fail");
+        });
+    });
 </script>

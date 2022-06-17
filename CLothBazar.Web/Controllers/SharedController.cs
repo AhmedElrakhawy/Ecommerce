@@ -10,22 +10,22 @@ namespace ClothBazar.Web.Controllers
         public JsonResult UploadImage()
         {
             var Result = new JsonResult();
-            //Request.RequestContext.
             try
             {
                 var file = Request.Files[0];
                 var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-                var path = Path.Combine(Server.MapPath("~/Content/images/"), fileName);
+                var path = Path.Combine(Server.MapPath("/content/images/"), fileName);
                 file.SaveAs(path);
                 Result.Data = new
                 {
                     Success = true,
-                    ImageURL = path
+                    ImageURL = string.Format("/content/images/{0}", fileName),
+                    JsonRequestBehavior.AllowGet
                 };
             }
             catch (Exception ex)
             {
-                Result.Data = new { Success = false, Message = ex.Message };
+                Result.Data = new { Success = false, Message = ex.Message, JsonRequestBehavior.AllowGet };
             }
 
             return Result;

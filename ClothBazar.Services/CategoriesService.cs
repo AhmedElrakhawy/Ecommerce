@@ -12,7 +12,14 @@ namespace ClothBazar.Services
         {
             using (var Context = new CBContext())
             {
-                return Context.Categories.ToList();
+                return Context.Categories.Include(x => x.Products).ToList();
+            }
+        }
+        public List<Category> GetFeaturedCategories()
+        {
+            using (var Context = new CBContext())
+            {
+                return Context.Categories.Where(X => X.IsFeatured && X.ImageUrl != null).ToList();
             }
         }
         public Category GetCategory(int ID)

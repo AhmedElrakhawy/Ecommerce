@@ -12,7 +12,7 @@ namespace ClothBazar.Services
         {
             using (var Context = new CBContext())
             {
-                return Context.Products.ToList();
+                return Context.Products.Include(X => X.Category).ToList();
             }
         }
         public Product GetProduct(int ID)
@@ -22,10 +22,18 @@ namespace ClothBazar.Services
                 return Context.Products.Find(ID);
             }
         }
+        public List<Product> GetProducts(List<int> IDs)
+        {
+            using (var Context = new CBContext())
+            {
+                return Context.Products.Where(product => IDs.Contains(product.ID)).ToList();
+            }
+        }
         public void Save(Product product)
         {
             using (var Context = new CBContext())
             {
+                Context.Entry(product.Category).State = EntityState.Unchanged;
                 Context.Products.Add(product);
                 Context.SaveChanges();
             }

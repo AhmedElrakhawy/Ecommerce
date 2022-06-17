@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "gmaps.js@0.4.25",
+      "destination": "Content/javascript/gmaps.js/"
+    }
+  ]
+}

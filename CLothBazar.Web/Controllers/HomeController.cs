@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using ClothBazar.Services;
+using ClothBazar.Web.ViewModel;
 using System.Web.Mvc;
 
 namespace ClothBazar.Web.Controllers
 {
     public class HomeController : Controller
     {
+        CategoriesService Categories = new CategoriesService();
+        ProductsService Products = new ProductsService();
         public ActionResult Index()
         {
-            return View();
+            var Model = new HomeViewModel()
+            {
+                FeaturedCategories = Categories.GetCategories()
+            };
+            return View(Model);
         }
 
         public ActionResult About()
