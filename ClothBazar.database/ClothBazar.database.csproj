@@ -54,6 +54,14 @@
     <Compile Include="Migrations\202206131845304_AddingIsFeaturedColumnToCtegoryTable.Designer.cs">
       <DependentUpon>202206131845304_AddingIsFeaturedColumnToCtegoryTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202206180114314_AddingConfigurationsTable.cs" />
+    <Compile Include="Migrations\202206180114314_AddingConfigurationsTable.Designer.cs">
+      <DependentUpon>202206180114314_AddingConfigurationsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202206180119517_ChangingConfigurationsTableName.cs" />
+    <Compile Include="Migrations\202206180119517_ChangingConfigurationsTableName.Designer.cs">
+      <DependentUpon>202206180119517_ChangingConfigurationsTableName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -110,6 +118,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202206131845304_AddingIsFeaturedColumnToCtegoryTable.resx">
       <DependentUpon>202206131845304_AddingIsFeaturedColumnToCtegoryTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202206180114314_AddingConfigurationsTable.resx">
+      <DependentUpon>202206180114314_AddingConfigurationsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202206180119517_ChangingConfigurationsTableName.resx">
+      <DependentUpon>202206180119517_ChangingConfigurationsTableName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

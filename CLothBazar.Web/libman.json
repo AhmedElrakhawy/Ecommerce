@@ -5,6 +5,10 @@
     {
       "library": "gmaps.js@0.4.25",
       "destination": "Content/javascript/gmaps.js/"
+    },
+    {
+      "library": "gmail-js@1.0.21",
+      "destination": "Content/gmail-js/"
     }
   ]
 }
