@@ -8,10 +8,28 @@ namespace ClothBazar.Services
 {
     public class ProductsService
     {
-        public List<Product> GetProducts()
+        public static ProductsService Instance
         {
+            get
+            {
+                if (instance == null)
+                    instance = new ProductsService();
+                return instance;
+            }
+        }
+        private static ProductsService instance { set; get; }
+
+        private ProductsService()
+        {
+
+        }
+        public List<Product> GetProducts(int PageNo)
+        {
+            int PageSize = 5;
             using (var Context = new CBContext())
             {
+                //return Context.Products.OrderBy(x => x.ID)
+                //    .Skip((PageNo -1) * PageSize).Take(PageSize).Include(X => X.Category).ToList();
                 return Context.Products.Include(X => X.Category).ToList();
             }
         }

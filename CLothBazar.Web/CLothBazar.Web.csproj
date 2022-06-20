@@ -195,6 +195,7 @@
     <Compile Include="ViewModel\CheckOutViewModel.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\NewCategoryViewModel.cs" />
+    <Compile Include="ViewModel\ProductSearchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\fontawesome-webfont.svg" />

@@ -8,6 +8,21 @@ namespace ClothBazar.Services
 {
     public class CategoriesService
     {
+        public static CategoriesService Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new CategoriesService();
+                return instance;
+            }
+        }
+        private static CategoriesService instance { set; get; }
+
+        private CategoriesService()
+        {
+
+        }
         public List<Category> GetCategories()
         {
             using (var Context = new CBContext())
@@ -50,8 +65,8 @@ namespace ClothBazar.Services
             using (var Context = new CBContext())
             {
                 var category = GetCategory(ID);
-                //Context.Entry(category).State = EntityState.Deleted;
-                Context.Categories.Remove(category);
+                Context.Entry(category).State = EntityState.Deleted;
+                //Context.Categories.Remove(category);
                 Context.SaveChanges();
             }
         }

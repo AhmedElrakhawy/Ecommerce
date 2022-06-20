@@ -25,7 +25,7 @@
     $("#UpdateBtn").click(function () {
         $.ajax({
             type:'POST',
-            url: '/Product/Edit',
+            url: '@Url.Action("Edit","Product")' /*'/Product/Edit'*/,
             data: $("#EditProduct").serialize()
         }).done(function (response) {
             $("#actionContainer").html("");

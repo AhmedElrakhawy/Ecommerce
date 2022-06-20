@@ -58,7 +58,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '/Shared/UploadImage',
+            url: '@Url.Action("UploadImage","Shared")' /*'/Shared/UploadImage'*/,
             dataType:'json',
             data: formdata,
             contentType: false,
@@ -76,7 +76,7 @@
     $("#updateBtn").click(function () {
         $.ajax({
             type: 'POST',
-            url: '/Category/Edit',
+            url: '@Url.Action("Edit","Category")' /*'/Category/Edit'*/,
             data: $("#EditCategory").serialize()
         }).done(function (response) {
             $("#actionContainer").html("");

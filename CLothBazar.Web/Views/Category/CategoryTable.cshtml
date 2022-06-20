@@ -70,7 +70,7 @@
         var SearchValue = $("#searchTxt").val();
 
         $.ajax({
-            url: '/Category/CategoryTable',
+            url: '@Url.Action("CategoryTable", "Category")' /*'/Category/CategoryTable'*/,
             data: {
                 search: SearchValue
             }
@@ -83,9 +83,10 @@
     $("#newBtn").click(function () {
         $.ajax({
             type: "GET",
-            url: '/Category/Create'
+            url: '@Url.Action("Create", "Category")' /*'/Category/Create'*/
         }).done(function (response) {
-            $("#actionContainer").html(response);
+            $("#actionContainer").html("");
+            location.reload();
             focusAction();
         }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
             alert("Fail");
@@ -95,7 +96,7 @@
         $.ajax(
             {
                 type:"GET",
-                url: '/Category/Edit' @*'@Url.Action("Edit","Product")'*@,
+                url: /*'/Category/Edit'*/ '@Url.Action("Edit","Category")',
                 data: {
                     ID: $(this).attr('data-id')
                 },
@@ -113,13 +114,14 @@
         if (ConfirmDelete) {
             $.ajax(
                 {
-                    type: 'POST',
-                    url: '/Category/Delete',
+                    type: 'Post',
+                    url: '@Url.Action("Delete", "Category")' /*'/Category/Delete'*/,
                     data: {
                         ID: $(this).attr('data-id')
                     }
                 }).done(function (response) {
                     $("#TableContainer").html(response);
+                    location.reload();
                 }).fail(function (XMLHttpRequest, testStatus, errorthrown) {
                     alert("Fail");
                 });

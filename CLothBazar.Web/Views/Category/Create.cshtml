@@ -1,36 +1,63 @@
-﻿
+﻿@model Category
 @{
     ViewBag.Title = "Create";
-    var ImageURL = "/Content/images/system/placeholder-image.png";
+    var ImageURL = !string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : "/Content/images/system/placeholder-image.png";
 }
 
 <h2>Create Category</h2>
-<form method="post">
-    <label>Name</label>
-    <input name="Name" />
-    <br />
+<form id="CreateCategory" method="post">
 
-    <label>Description</label>
-    <input name="Description" />
-    <br />
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>Name</label>
+                <input class="form-control" name="Name" />
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <input class="form-control" name="Description"  />
+            </div>
+            <div class="form-group">
+                <label>Image</label>
+                <input id="ImageUrl" name="ImageUrl" type="hidden"  />
+                <input class="form-control" id="imageUpload" name="Image" type="file" accept=".jpg , .png" />
+                <div class="col-md-4">
+                    <div class="thumb">
+                        <img class="img-thumbnail img-fluid" id="categoryimage" src="@ImageURL" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Is Featured ?</label>
+                <div class="input-group">
+                    <div class="radio form-control">
+                        <input type="radio" value="True" name="IsFeatured"  /> True
+                    </div>
+                    <div class="radio form-control">
+                        <input type="radio" value="False" name="IsFeatured" /> False
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <label>Image</label>
-    <input id="ImageUrl" name="ImageUrl" type="hidden" />
-    <input id="imageUpload" name="Image" type="file" accept=".jpg , .png" />
-    <div class="thumb">
-        <img id="categoryimage" width="100" />
     </div>
-    <br />
-
-    <label>Is Featured ?</label>
-    <input type="radio" value="True" name="IsFeatured" /> True
-    <input type="radio" value="False" name="IsFeatured" /> False 
-    <br />
-
-    <button type="submit">Save</button>
+    <button id="SaveBtn" type="submit" class="btn btn-primary">Save</button>
 </form>
 
 <script>
+       $("#SaveBtn").click(function () {
+        $.ajax({
+            type:'POST',
+            url: '@Url.Action("Create","Category")' /*'/Product/Create'*/,
+            data: $("#CreateCategory").serialize()
+        }).done(function (response) {
+            $("#actionContainer").html("");
+            location.reload();
+        }).fail(XMLHttpRequest, testStatus, errorThrown)
+        {
+            alert("Fail");
+        }
+    });
     $("#imageUpload").change(function () {
         var element = this;
         var formdata = new FormData();
@@ -42,7 +69,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '/Shared/UploadImage',
+            url: '@Url.Action("UploadImage","Shared")' /*'/Shared/UploadImage'*/,
             dataType:'json',
             data: formdata,
             contentType: false,
