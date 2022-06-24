@@ -33,11 +33,20 @@ namespace ClothBazar.Services
                 return Context.Products.Include(X => X.Category).ToList();
             }
         }
+        public List<Product> GetProducts()
+        {
+            using (var Context = new CBContext())
+            {
+                //return Context.Products.OrderBy(x => x.ID)
+                //    .Skip((PageNo -1) * PageSize).Take(PageSize).Include(X => X.Category).ToList();
+                return Context.Products.Include(X => X.Category).ToList();
+            }
+        }
         public Product GetProduct(int ID)
         {
             using (var Context = new CBContext())
             {
-                return Context.Products.Find(ID);
+                return Context.Products.Include(x => x.Category).FirstOrDefault(x=> x.ID == ID);
             }
         }
         public List<Product> GetProducts(List<int> IDs)
@@ -60,6 +69,7 @@ namespace ClothBazar.Services
         {
             using (var Context = new CBContext())
             {
+               
                 Context.Entry(product).State = EntityState.Modified;
                 Context.SaveChanges();
             }

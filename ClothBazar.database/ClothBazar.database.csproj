@@ -62,6 +62,10 @@
     <Compile Include="Migrations\202206180119517_ChangingConfigurationsTableName.Designer.cs">
       <DependentUpon>202206180119517_ChangingConfigurationsTableName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202206240712420_AddingCategoryIDANdImageUrlColumnsToProductTable.cs" />
+    <Compile Include="Migrations\202206240712420_AddingCategoryIDANdImageUrlColumnsToProductTable.Designer.cs">
+      <DependentUpon>202206240712420_AddingCategoryIDANdImageUrlColumnsToProductTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -124,6 +128,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202206180119517_ChangingConfigurationsTableName.resx">
       <DependentUpon>202206180119517_ChangingConfigurationsTableName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202206240712420_AddingCategoryIDANdImageUrlColumnsToProductTable.resx">
+      <DependentUpon>202206240712420_AddingCategoryIDANdImageUrlColumnsToProductTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
