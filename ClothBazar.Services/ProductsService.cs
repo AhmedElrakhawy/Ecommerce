@@ -72,6 +72,7 @@ namespace ClothBazar.Services
                
                 Context.Entry(product).State = EntityState.Modified;
                 Context.SaveChanges();
+
             }
         }
         public void DeleteProduct(int ID)
