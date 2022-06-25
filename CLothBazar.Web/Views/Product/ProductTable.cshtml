@@ -13,7 +13,7 @@
             <div class="col-md-8">
                 <div class="form-group">
                     <label>Search</label>
-                    <input class="form-control" id="searchTxt" name="Search" />
+                    <input class="form-control" id="searchTxt" name="Search" value="@Model.SearchTerm" />
                 </div>
             </div>
             <div class="col-md-4">
@@ -21,7 +21,7 @@
                     <label>Actions</label>
                     <div class="row">
                         <div class="col-md-4 pr-0">
-                            <button class="btn btn-primary form-control" type="submit" id="searchBtn">Search</button>
+                            <button class="btn btn-primary form-control" type="button" id="searchBtn">Search</button>
                         </div>
                         <div class="col-md-4 pr-0">
                             <button class="btn btn-primary form-control" type="button" id="newBtn">New</button>
@@ -39,14 +39,14 @@
 
     </form>
 </div>
-<div id="TableContainer">
+<div>
     <table id="ProductsTable" class="table table-striped">
         <thead>
             <tr>
-                <td>Product Name</td>
-                <td>Category</td>
-                <td>Price</td>
-                <td>Actions</td>
+                <th class="font-weight-bold">Product Name</th>
+                <th class="font-weight-bold">Category</th>
+                <th class="font-weight-bold">Price</th>
+                <th class="font-weight-bold wrap-td">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -64,6 +64,7 @@
                             <text>_</text>
                         }
                     </td>
+
                     <td>@Product.Price</td>
                     <td>
                         <button class="EditBtn" data-id="@Product.ID">Edit</button>
@@ -78,9 +79,6 @@
             <button class="PageButtons" data-PageNo="@(Model.PageNo - 1 )">Previous</button>
             <button class="PageButtons" data-PageNo="@(Model.PageNo + 1 )">Next</button>
         </div>*@
-</div>
-<div id="actionContainer">
-
 </div>
 <script>
     $('#ProductsTable').DataTable();
@@ -133,7 +131,7 @@
             url: '@Url.Action("Create","Product")' /*'/Product/Create'*/
         }).done(function (response) {
             $("#actionContainer").html(response);
-            focusAction();
+            focusAction("actionContainer");
         }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
             alert("Fail");
         });
@@ -147,7 +145,8 @@
                     ID: $(this).attr('data-id')
                 },
                 success: function (response) {
-                    $("#actionContainer").html(response)
+                    $("#actionContainer").html(response);
+                    focusAction("actionContainer");
                 },
                 fail: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("Fail")
@@ -172,7 +171,7 @@
                             ID: $(this).attr('data-id')
                         }
                     }).done(function (response) {
-                        $("#TableContainer").html(response);
+                        $("#tableContainer").html(response);
                         swal("Product have been Deleted", {
                             icon: "success",
                         });
@@ -188,9 +187,4 @@
         Products.push(ProductID);
         $.cookie('cartProduct', Products.join('-'), { path : "/" });
     })
-    function focusAction() {
-        $('html , body').animate({
-            scrollTop: ("actionContainer").offset().top - 100
-        }, 1000);
-    }
 </script>

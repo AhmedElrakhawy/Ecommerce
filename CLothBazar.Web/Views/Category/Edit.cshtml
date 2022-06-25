@@ -6,7 +6,9 @@
     var ImageURL = !string.IsNullOrEmpty(Model.ImageUrl) ? Model.ImageUrl : "/Content/images/system/placeholder-image.png";
 }
 
-<h2>Edit</h2>
+<h2>Edit Category</h2>
+<hr />
+
 <form id="EditCategory" method="post">
     <input type="hidden" name="ID" value="@Model.ID" />
 
@@ -19,34 +21,40 @@
             <div class="form-group">
                 <label>Description</label>
                 <input class="form-control" name="Description" value="@Model.Description" />
+
             </div>
             <div class="form-group">
                 <label>Image</label>
                 <input id="ImageUrl" name="ImageUrl" type="hidden" value="@Model.ImageUrl" />
                 <input class="form-control" id="imageUpload" name="Image" type="file" accept=".jpg , .png" />
-                <div class="col-md-4">
-                    <div class="thumb">
-                        <img class="img-thumbnail img-fluid" id="categoryimage" src="@ImageURL" />
-                    </div>
-                </div>
             </div>
             <div class="form-group">
-                <label>Is Featured ?</label>
+                <label>Is Featured?</label>
                 <div class="input-group">
                     <div class="radio form-control">
-                        <input type="radio" value="True" name="IsFeatured" @FeaturedTrue /> True
+                        <label><input name="IsFeatured" type="radio" value="True" @FeaturedTrue /> True</label>
                     </div>
                     <div class="radio form-control">
-                        <input type="radio" value="False" name="IsFeatured" @FeaturedFalse /> False
+                        <label><input name="IsFeatured" type="radio" value="False" @FeaturedFalse /> False</label>
                     </div>
                 </div>
             </div>
         </div>
-
+        <div class="col-md-4">
+            <div class="thumb">
+                <img class="img-thumbnail img-fluid" id="categoryimage" src="@ImageURL" />
+            </div>
+        </div>
     </div>
-    <button id="updateBtn" type="submit" class="btn btn-primary">Update</button>
+
+    <button id="updateBtn" type="button" class="btn btn-primary">Update</button>
+    <button id="CancelBtn" type="button" class="btn btn-primary">Cancel</button>
 </form>
 <script>
+    $("#CancelBtn").click(function () {
+        $("#actionContainer").html("");
+        focusAction("tableContainer");
+    });
     $("#imageUpload").change(function () {
         var element = this;
         var formdata = new FormData();
@@ -80,7 +88,8 @@
             data: $("#EditCategory").serialize()
         }).done(function (response) {
             $("#actionContainer").html("");
-            $("#TableContainer").html(response);
+            $("#tableContainer").html(response);
+            focusAction("tableContainer");
         }).fail(XMLHttpRequest, testStatus, errorThrown)
         {
             alert("Fail");

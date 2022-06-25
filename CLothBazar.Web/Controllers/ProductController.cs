@@ -8,9 +8,6 @@ namespace ClothBazar.Web.Controllers
 {
     public class ProductController : Controller
     {
-        //ProductsService productsService = new ProductsService();
-        //CategoriesService categoriesService = new CategoriesService();
-        // GET: Product
         public ActionResult Index()
         {
             return View();
@@ -26,23 +23,24 @@ namespace ClothBazar.Web.Controllers
                 Model.Products = Model.Products.Where(x =>
                 x.Name != null && x.Name.ToUpper() == Search.ToUpper()).ToList();
             }
-            return View(Model);
+            return PartialView(Model);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            var Categories = CategoriesService.Instance.GetCategories();
-            return PartialView(Categories);
+            var Model = new ProductViewModel();
+            Model.Categories=  CategoriesService.Instance.GetCategories();
+            return PartialView(Model);
         }
         [HttpPost]
-        public ActionResult Create(NewCategoryViewModel Model)
+        public ActionResult Create(ProductViewModel Model)
         {
             Product NewProduct = new Product();
             NewProduct.Name = Model.Name;
             NewProduct.Description = Model.Description;
-            NewProduct.Name = Model.Name;
             NewProduct.Price = Model.Price;
+            NewProduct.ImageUrl = Model.ImageUrl;
             NewProduct.Category = CategoriesService.Instance.GetCategory(Model.CategoryID);
             ProductsService.Instance.Save(NewProduct);
             return RedirectToAction("ProductTable");
@@ -51,12 +49,28 @@ namespace ClothBazar.Web.Controllers
         public ActionResult Edit(int ID)
         {
             var Product = ProductsService.Instance.GetProduct(ID);
-            return PartialView(Product);
+            var Model = new ProductViewModel();
+            Model.ID = Product.ID;
+            Model.Name = Product.Name;
+            Model.Description = Product.Description;
+            Model.Price = Product.Price;
+            Model.CategoryID = Product.Category != null ? Product.CategoryID : 0;
+            Model.ImageUrl = Product.ImageUrl;
+            Model.Categories = CategoriesService.Instance.GetCategories();
+            return PartialView(Model);
         }
         [HttpPost]
-        public ActionResult Edit(Product product)
+        public ActionResult Edit(ProductViewModel Model)
         {
-            ProductsService.Instance.UpdateProduct(product);
+            var ExcistingProduct = ProductsService.Instance.GetProduct(Model.ID);
+            ExcistingProduct.Name = Model.Name;
+            ExcistingProduct.Description = Model.Description;
+            ExcistingProduct.Price = Model.Price;
+
+            ExcistingProduct.ImageUrl = Model.ImageUrl;
+            ExcistingProduct.Category = null;
+            ExcistingProduct.CategoryID = Model.CategoryID;
+            ProductsService.Instance.UpdateProduct(ExcistingProduct);
             return RedirectToAction("ProductTable");
         }
 

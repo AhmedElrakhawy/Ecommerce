@@ -8,9 +8,7 @@ namespace ClothBazar.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        // GET: Category
-        //Index
-        [HttpGet]
+
         public ActionResult Index()
         {
             return View();
@@ -20,25 +18,29 @@ namespace ClothBazar.Web.Controllers
             var Categories = CategoriesService.Instance.GetCategories();
             if(!string.IsNullOrEmpty(Search))
             {
-                Categories = Categories.Where(X => X.Name != null && X.Name == Search).ToList();
+                Categories = Categories.Where(X => X.Name != null && X.Name.ToUpper() == Search.ToUpper()).ToList();
             }
             var Model = new CategoryViewModel()
             {
+                SearchTerm = Search,
                 Categories = Categories
             };
-            return View(Model);
+            return PartialView(Model);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            return PartialView(new Category());
+            var Model = new Category();
+            return PartialView(Model);
         }
 
         [HttpPost]
         public ActionResult Create(Category category)
         {
             CategoriesService.Instance.Save(category);
+            CategoryViewModel Model = new CategoryViewModel();
+            Model.Categories = CategoriesService.Instance.GetCategories();
             return RedirectToAction("CategoryTable");
         }
         [HttpGet]
@@ -52,7 +54,9 @@ namespace ClothBazar.Web.Controllers
         public ActionResult Edit(Category category)
         {
             CategoriesService.Instance.UpdateCategory(category);
-            return PartialView("CategoryTable");
+            CategoryViewModel Model = new CategoryViewModel();
+            Model.Categories = CategoriesService.Instance.GetCategories();
+            return PartialView("CategoryTable", Model);
         }
         [HttpPost]
         public ActionResult Delete(int ID)
@@ -60,12 +64,5 @@ namespace ClothBazar.Web.Controllers
             CategoriesService.Instance.DeleteCategory(ID);
             return RedirectToAction("CategoryTable");
         }
-
-        //[HttpPost]
-        //public ActionResult Delete(Category category)
-        //{
-        //    categoryService.DeleteCategory(category.ID);
-        //    return RedirectToAction("CategoryTable");
-        //}
     }
 }
