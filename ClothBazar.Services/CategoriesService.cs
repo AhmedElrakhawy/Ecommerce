@@ -23,11 +23,54 @@ namespace ClothBazar.Services
         {
 
         }
-        public List<Category> GetCategories()
+        public List<Category> GetAllCategories()
         {
             using (var Context = new CBContext())
             {
                 return Context.Categories.Include(x => x.Products).ToList();
+            }
+        }
+        public int GetCategoriesCount(string Search)
+        {
+            using (var Context = new CBContext())
+            {
+                if (!string.IsNullOrEmpty(Search))
+                {
+                    return Context.Categories
+                        .Where(X => X.Name != null && X.Name.ToUpper()
+                        .Contains(Search.ToUpper()))
+                        .Count();
+                }
+                else
+                {
+                    return Context.Categories.Count();
+                }
+            }
+        }
+        public List<Category> GetCategories(string Search, int PageNo)
+        {
+            int PageSize = 3;
+            using (var Context = new CBContext())
+            {
+                if (!string.IsNullOrEmpty(Search))
+                {
+                    return Context.Categories.OrderBy(x => x.ID)
+                        .Skip((PageNo - 1) * PageSize)
+                        .Take(PageSize)
+                        .Include(x => x.Products)
+                        .Where(X => X.Name != null && X.Name.ToUpper()
+                        .Contains(Search.ToUpper()))
+                        .ToList();
+                }
+                else
+                {
+                    return Context.Categories
+                        .OrderBy(x=> x.ID)
+                        .Skip((PageNo - 1) * PageSize)
+                        .Take(PageSize)
+                        .Include(x => x.Products)
+                        .ToList();
+                }
             }
         }
         public List<Category> GetFeaturedCategories()

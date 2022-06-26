@@ -8,24 +8,26 @@ namespace ClothBazar.Web.Controllers
 {
     public class CategoryController : Controller
     {
-
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult CategoryTable(string Search)
+        public ActionResult CategoryTable(string Search,int? PageNo)
         {
-            var Categories = CategoriesService.Instance.GetCategories();
-            if(!string.IsNullOrEmpty(Search))
+            var Model = new CategorySearchViewModel();
+            Model.SearchTerm = Search;
+            PageNo = PageNo.HasValue ? PageNo.Value > 0 ? PageNo.Value : 1 : 1;
+            var TotalRecords = CategoriesService.Instance.GetCategoriesCount(Search);
+            Model.Categories = CategoriesService.Instance.GetCategories(Search,PageNo.Value);
+            if(Model.Categories != null)
             {
-                Categories = Categories.Where(X => X.Name != null && X.Name.ToUpper() == Search.ToUpper()).ToList();
+                Model.Pager = new Pager(TotalRecords,PageNo,3);
+                return PartialView("CategoryTable",Model);
             }
-            var Model = new CategoryViewModel()
+            else
             {
-                SearchTerm = Search,
-                Categories = Categories
-            };
-            return PartialView(Model);
+                return HttpNotFound();
+            }
         }
 
         [HttpGet]
@@ -40,7 +42,7 @@ namespace ClothBazar.Web.Controllers
         {
             CategoriesService.Instance.Save(category);
             CategoryViewModel Model = new CategoryViewModel();
-            Model.Categories = CategoriesService.Instance.GetCategories();
+            Model.Categories = CategoriesService.Instance.GetAllCategories();
             return RedirectToAction("CategoryTable");
         }
         [HttpGet]
@@ -55,7 +57,7 @@ namespace ClothBazar.Web.Controllers
         {
             CategoriesService.Instance.UpdateCategory(category);
             CategoryViewModel Model = new CategoryViewModel();
-            Model.Categories = CategoriesService.Instance.GetCategories();
+            Model.Categories = CategoriesService.Instance.GetAllCategories();
             return PartialView("CategoryTable", Model);
         }
         [HttpPost]

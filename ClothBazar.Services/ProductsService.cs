@@ -23,14 +23,47 @@ namespace ClothBazar.Services
         {
 
         }
-        public List<Product> GetProducts(int PageNo)
+        public int GetProductsCount(string Search)
         {
-            int PageSize = 5;
             using (var Context = new CBContext())
             {
-                //return Context.Products.OrderBy(x => x.ID)
-                //    .Skip((PageNo -1) * PageSize).Take(PageSize).Include(X => X.Category).ToList();
-                return Context.Products.Include(X => X.Category).ToList();
+                if (!string.IsNullOrEmpty(Search))
+                {
+                    return Context.Products
+                        .Where(X => X.Name != null && X.Name.ToUpper()
+                        .Contains(Search.ToUpper()))
+                        .Count();
+                }
+                else
+                {
+                    return Context.Products.Count();
+                }
+            }
+        }
+        public List<Product> GetProducts(string Search,int PageNo)
+        {
+            int PageSize = 6;
+            using (var Context = new CBContext())
+            {
+                if (!string.IsNullOrEmpty(Search))
+                {
+                    return Context.Products.OrderBy(x => x.ID)
+                        .Skip((PageNo - 1) * PageSize)
+                        .Take(PageSize)
+                        .Include(x => x.Category)
+                        .Where(X => X.Name != null && X.Name.ToUpper()
+                        .Contains(Search.ToUpper()))
+                        .ToList();
+                }
+                else
+                {
+                    return Context.Products
+                        .OrderBy(x => x.ID)
+                        .Skip((PageNo - 1) * PageSize)
+                        .Take(PageSize)
+                        .Include(x => x.Category)
+                        .ToList();
+                }
             }
         }
         public List<Product> GetProducts()
