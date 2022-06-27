@@ -12,25 +12,29 @@ namespace ClothBazar.Web.Controllers
         {
             return View();
         }
-        public ActionResult ProductTable(string Search)
+        public ActionResult ProductTable(string Search, int? PageNo)
         {
             var Model = new ProductSearchViewModel();
-            //Model.PageNo = PageNo.HasValue ? PageNo.Value > 0 ? PageNo.Value : 1 : 1;
-            Model.Products = ProductsService.Instance.GetProducts(Model.PageNo);
-            if (!string.IsNullOrEmpty(Search))
+            Model.SearchTerm = Search;
+            PageNo = PageNo.HasValue ? PageNo.Value > 0 ? PageNo.Value : 1 : 1;
+            var TotalRecords = ProductsService.Instance.GetProductsCount(Search);
+            Model.Products = ProductsService.Instance.GetProducts(Search, PageNo.Value);
+            if (Model.Products != null)
             {
-                Model.SearchTerm = Search;
-                Model.Products = Model.Products.Where(x =>
-                x.Name != null && x.Name.ToUpper() == Search.ToUpper()).ToList();
+                Model.Pager = new Pager(TotalRecords, PageNo,6);
+                return PartialView("ProductTable",Model);
             }
-            return PartialView(Model);
+            else
+            {
+                return HttpNotFound();
+            }
         }
 
         [HttpGet]
         public ActionResult Create()
         {
             var Model = new ProductViewModel();
-            Model.Categories=  CategoriesService.Instance.GetCategories();
+            Model.Categories = CategoriesService.Instance.GetAllCategories();
             return PartialView(Model);
         }
         [HttpPost]
@@ -56,7 +60,7 @@ namespace ClothBazar.Web.Controllers
             Model.Price = Product.Price;
             Model.CategoryID = Product.Category != null ? Product.CategoryID : 0;
             Model.ImageUrl = Product.ImageUrl;
-            Model.Categories = CategoriesService.Instance.GetCategories();
+            Model.Categories = CategoriesService.Instance.GetAllCategories();
             return PartialView(Model);
         }
         [HttpPost]
