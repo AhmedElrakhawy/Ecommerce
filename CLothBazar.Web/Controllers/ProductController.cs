@@ -21,8 +21,8 @@ namespace ClothBazar.Web.Controllers
             Model.Products = ProductsService.Instance.GetProducts(Search, PageNo.Value);
             if (Model.Products != null)
             {
-                Model.Pager = new Pager(TotalRecords, PageNo,6);
-                return PartialView("ProductTable",Model);
+                Model.Pager = new Pager(TotalRecords, PageNo, 6);
+                return PartialView("ProductTable", Model);
             }
             else
             {

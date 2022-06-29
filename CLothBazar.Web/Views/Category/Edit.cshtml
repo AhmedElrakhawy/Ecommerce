@@ -1,4 +1,4 @@
-﻿@model ClothBazar.Entities.Category
+﻿@model ClothBazar.Web.ViewModel.EditCategoryViewModel
 @{
     ViewBag.Title = "Edit";
     var FeaturedTrue = Model.IsFeatured ? "Checked" : string.Empty;
@@ -63,7 +63,6 @@
             var file = element.files[i];
             formdata.append("photo", file);
         }
-
         $.ajax({
             type: 'POST',
             url: '@Url.Action("UploadImage","Shared")' /*'/Shared/UploadImage'*/,
@@ -90,9 +89,9 @@
             $("#actionContainer").html("");
             $("#tableContainer").html(response);
             focusAction("tableContainer");
-        }).fail(XMLHttpRequest, testStatus, errorThrown)
+        }).fail(function(XMLHttpRequest, testStatus, errorThrown)
         {
             alert("Fail");
-        }
+        })
     });
 </script>

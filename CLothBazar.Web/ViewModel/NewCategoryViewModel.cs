@@ -1,10 +1,15 @@
-﻿namespace ClothBazar.Web.ViewModel
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ClothBazar.Web.ViewModel
 {
     public class NewCategoryViewModel
     {
-        public int CategoryID { get; set; }
+        [Required]
+        [MinLength(5), MaxLength(70)]
         public string Name { get; set; }
-        public decimal Price { get; set; }
+        [MaxLength(500)]
         public string Description { get; set; }
+        public bool IsFeatsured { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

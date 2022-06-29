@@ -7,7 +7,7 @@
 <h2>Edit Product</h2>
 <hr />
 
-<form id="EditProduct" >
+<form id="EditProduct">
     <input type="hidden" name="ID" value="@Model.ID" />
 
 
@@ -60,10 +60,10 @@
             $("#actionContainer").html("");
             $("#tableContainer").html(response);
             focusAction("tableContainer");
-        }).fail(XMLHttpRequest, testStatus, errorThrown)
+        }).fail(function(XMLHttpRequest, testStatus, errorThrown)
         {
             alert("Fail");
-        }
+        })
     });
     $("#CancelBtn").click(function () {
         $("#actionContainer").html("");
@@ -77,7 +77,6 @@
             var file = element.files[i];
             formdata.append("photo", file);
         }
-
         $.ajax({
             type: 'POST',
             url: '@Url.Action("UploadImage","Shared")' /*'/Shared/UploadImage'*/,
@@ -96,5 +95,3 @@
         });
     });
 </script>
-
-

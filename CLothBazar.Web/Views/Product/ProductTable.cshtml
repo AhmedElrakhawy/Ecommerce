@@ -97,9 +97,10 @@
     $(".PageButtons").click(function () {
         $.ajax({
             type: "GET",
-            url: '@Url.Action("ProductTable","Product")', 
+            url: '@Url.Action("ProductTable","Product")',
             data : {
-                PageNo: $(this).attr('data-PageNo')
+                PageNo: $(this).attr('data-PageNo'),
+                search: "@Model.SearchTerm"
         }
         }).done(function (response) {
             $("#tableContainer").html(response);
