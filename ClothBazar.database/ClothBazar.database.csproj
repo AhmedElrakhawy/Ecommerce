@@ -70,6 +70,10 @@
     <Compile Include="Migrations\202206272322069_AddingDataAnotaion.Designer.cs">
       <DependentUpon>202206272322069_AddingDataAnotaion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202206300041208_UpdatingProductsPriceRange.cs" />
+    <Compile Include="Migrations\202206300041208_UpdatingProductsPriceRange.Designer.cs">
+      <DependentUpon>202206300041208_UpdatingProductsPriceRange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -138,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202206272322069_AddingDataAnotaion.resx">
       <DependentUpon>202206272322069_AddingDataAnotaion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202206300041208_UpdatingProductsPriceRange.resx">
+      <DependentUpon>202206300041208_UpdatingProductsPriceRange.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

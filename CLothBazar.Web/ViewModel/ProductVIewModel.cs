@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ClothBazar.Web.ViewModel
 {
-    public class ProductViewModel
+    public class UpsertProductViewModel
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -16,5 +16,9 @@ namespace ClothBazar.Web.ViewModel
         public int CategoryID { get; set; }
         public string ImageUrl { get; set; }
         public List<Category> Categories { get; set; }
+    }
+    public class ProductViewModel
+    {
+        public Product Product { get; set; }
     }
 }

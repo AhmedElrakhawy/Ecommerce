@@ -33,12 +33,12 @@ namespace ClothBazar.Web.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            var Model = new ProductViewModel();
+            var Model = new UpsertProductViewModel();
             Model.Categories = CategoriesService.Instance.GetAllCategories();
             return PartialView(Model);
         }
         [HttpPost]
-        public ActionResult Create(ProductViewModel Model)
+        public ActionResult Create(UpsertProductViewModel Model)
         {
             Product NewProduct = new Product();
             NewProduct.Name = Model.Name;
@@ -53,7 +53,7 @@ namespace ClothBazar.Web.Controllers
         public ActionResult Edit(int ID)
         {
             var Product = ProductsService.Instance.GetProduct(ID);
-            var Model = new ProductViewModel();
+            var Model = new UpsertProductViewModel();
             Model.ID = Product.ID;
             Model.Name = Product.Name;
             Model.Description = Product.Description;
@@ -64,7 +64,7 @@ namespace ClothBazar.Web.Controllers
             return PartialView(Model);
         }
         [HttpPost]
-        public ActionResult Edit(ProductViewModel Model)
+        public ActionResult Edit(UpsertProductViewModel Model)
         {
             var ExcistingProduct = ProductsService.Instance.GetProduct(Model.ID);
             ExcistingProduct.Name = Model.Name;
@@ -84,6 +84,12 @@ namespace ClothBazar.Web.Controllers
         {
             ProductsService.Instance.DeleteProduct(ID);
             return RedirectToAction("ProductTable");
+        }
+        public ActionResult Details(int ID)
+        {
+            var Model = new ProductViewModel();
+            Model.Product = ProductsService.Instance.GetProduct(ID);
+            return View(Model);
         }
     }
 }
