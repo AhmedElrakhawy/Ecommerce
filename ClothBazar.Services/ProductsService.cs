@@ -1,153 +1,256 @@
-﻿using ClothBazar.database;
-using ClothBazar.Entities;
+﻿using ClothBazar.Entities;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.Entity;
+using ClothBazar.database;
 
 namespace ClothBazar.Services
 {
     public class ProductsService
     {
+        #region Singleton
         public static ProductsService Instance
         {
             get
             {
-                if (instance == null)
-                    instance = new ProductsService();
+                if (instance == null) instance = new ProductsService();
+
                 return instance;
             }
         }
-        private static ProductsService instance { set; get; }
+        private static ProductsService instance { get; set; }
 
         private ProductsService()
         {
+        }
 
-        }
-        public int GetProductsCount(string Search)
+        #endregion
+
+        public List<Product> FilterProduct(string searchTerm, int? minimumPrice, int? maximumPrice, int? categoryID, int? sortBy, int pageNo, int pageSize)
         {
-            using (var Context = new CBContext())
+            using (var context = new CBContext())
             {
-                if (!string.IsNullOrEmpty(Search))
+                var products = context.Products.ToList();
+
+                if (categoryID.HasValue)
                 {
-                    return Context.Products
-                        .Where(X => X.Name != null && X.Name.ToUpper()
-                        .Contains(Search.ToUpper()))
-                        .Count();
+                    products = products.Where(x => x.Category.ID == categoryID.Value).ToList();
                 }
-                else
+
+                if (!string.IsNullOrEmpty(searchTerm))
                 {
-                    return Context.Products.Count();
+                    products = products.Where(x => x.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
                 }
-            }
-        }
-        public List<Product> GetProducts(string Search,int PageNo)
-        {
-            int PageSize = 6;
-            using (var Context = new CBContext())
-            {
-                if (!string.IsNullOrEmpty(Search))
+
+                if (minimumPrice.HasValue)
                 {
-                    return Context.Products.OrderBy(x => x.ID)
-                        .Skip((PageNo - 1) * PageSize)
-                        .Take(PageSize)
-                        .Include(x => x.Category)
-                        .Where(X => X.Name != null && X.Name.ToUpper()
-                        .Contains(Search.ToUpper()))
-                        .ToList();
+                    products = products.Where(x => x.Price >= minimumPrice.Value).ToList();
                 }
-                else
+
+                if (maximumPrice.HasValue)
                 {
-                    return Context.Products
-                        .OrderBy(x => x.ID)
-                        .Skip((PageNo - 1) * PageSize)
-                        .Take(PageSize)
-                        .Include(x => x.Category)
-                        .ToList();
+                    products = products.Where(x => x.Price <= maximumPrice.Value).ToList();
                 }
+
+                if (sortBy.HasValue)
+                {
+                    switch (sortBy.Value)
+                    {
+                        case 2:
+                            products = products.OrderByDescending(x => x.ID).ToList();
+                            break;
+                        case 3:
+                            products = products.OrderBy(x => x.Price).ToList();
+                            break;
+                        default:
+                            products = products.OrderByDescending(x => x.Price).ToList();
+                            break;
+                    }
+                }
+
+                return products.Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
             }
         }
-        public List<Product> GetProducts( int PageNo , int PageSize)
+
+        public int FilterProductCount(string searchTerm, int? minimumPrice, int? maximumPrice, int? categoryID, int? sortBy)
         {
-            using (var Context = new CBContext())
+            using (var context = new CBContext())
             {
-                    return Context.Products.OrderByDescending(x => x.ID)
-                        .Skip((PageNo - 1) * PageSize)
-                        .Take(PageSize)
-                        .Include(x => x.Category)
-                        .ToList();
+                var products = context.Products.ToList();
+
+                if (categoryID.HasValue)
+                {
+                    products = products.Where(x => x.Category.ID == categoryID.Value).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    products = products.Where(x => x.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
+                }
+
+                if (minimumPrice.HasValue)
+                {
+                    products = products.Where(x => x.Price >= minimumPrice.Value).ToList();
+                }
+
+                if (maximumPrice.HasValue)
+                {
+                    products = products.Where(x => x.Price <= maximumPrice.Value).ToList();
+                }
+
+                if (sortBy.HasValue)
+                {
+                    switch (sortBy.Value)
+                    {
+                        case 2:
+                            products = products.OrderByDescending(x => x.ID).ToList();
+                            break;
+                        case 3:
+                            products = products.OrderBy(x => x.Price).ToList();
+                            break;
+                        default:
+                            products = products.OrderByDescending(x => x.Price).ToList();
+                            break;
+                    }
+                }
+
+                return products.Count;
             }
         }
-        public List<Product> GetLatestProducts(int NumOfProducts)
+
+
+        public int GetMaximumPrice()
         {
-            using (var Context = new CBContext())
+            using (var context = new CBContext())
             {
-                    return Context.Products.OrderByDescending(x => x.ID)
-                        .Take(NumOfProducts)
-                        .Include(x => x.Category)
-                        .ToList();
+                return (int)(context.Products.Max(x => x.Price));
             }
         }
-        public List<Product> GetProductsByCategoryID(int CategoryID , int PageSize)
-        {
-            using (var Context = new CBContext())
-            {
-                return Context.Products.Where(x => x.CategoryID == CategoryID)
-                        .OrderByDescending(x => x.ID)
-                        .Take(PageSize)
-                        .Include(x => x.Category)
-                        .ToList();
-            }
-        }
-        public List<Product> GetProducts()
-        {
-            using (var Context = new CBContext())
-            {
-                //return Context.Products.OrderBy(x => x.ID)
-                //    .Skip((PageNo -1) * PageSize).Take(PageSize).Include(X => X.Category).ToList();
-                return Context.Products.Include(X => X.Category).ToList();
-            }
-        }
+
         public Product GetProduct(int ID)
         {
-            using (var Context = new CBContext())
+            using (var context = new CBContext())
             {
-                return Context.Products.Include(x => x.Category).FirstOrDefault(x=> x.ID == ID);
+                return context.Products.Where(x => x.ID == ID).Include(x => x.Category).FirstOrDefault();
             }
         }
+
         public List<Product> GetProducts(List<int> IDs)
         {
-            using (var Context = new CBContext())
+            using (var context = new CBContext())
             {
-                return Context.Products.Where(product => IDs.Contains(product.ID)).ToList();
+                return context.Products.Where(product => IDs.Contains(product.ID)).ToList();
             }
         }
-        public void Save(Product product)
+
+        public List<Product> GetProducts(int pageNo)
         {
-            using (var Context = new CBContext())
+            int pageSize = 5;
+
+            using (var context = new CBContext())
             {
-                Context.Entry(product.Category).State = EntityState.Unchanged;
-                Context.Products.Add(product);
-                Context.SaveChanges();
+                return context.Products.OrderBy(x => x.ID).Skip((pageNo - 1) * pageSize).Take(pageSize).Include(x => x.Category).ToList();
             }
         }
+
+        public List<Product> GetProducts(int pageNo, int pageSize)
+        {
+            using (var context = new CBContext())
+            {
+                return context.Products.OrderByDescending(x => x.ID).Skip((pageNo - 1) * pageSize).Take(pageSize).Include(x => x.Category).ToList();
+            }
+        }
+
+        public List<Product> GetProducts(string search, int pageNo, int pageSize)
+        {
+            using (var context = new CBContext())
+            {
+                if (!string.IsNullOrEmpty(search))
+                {
+                    return context.Products.Where(product => product.Name != null &&
+                         product.Name.ToLower().Contains(search.ToLower()))
+                         .OrderBy(x => x.ID)
+                         .Skip((pageNo - 1) * pageSize)
+                         .Take(pageSize)
+                         .Include(x => x.Category)
+                         .ToList();
+                }
+                else
+                {
+                    return context.Products
+                        .OrderBy(x => x.ID)
+                        .Skip((pageNo - 1) * pageSize)
+                        .Take(pageSize)
+                        .Include(x => x.Category)
+                        .ToList();
+                }
+            }
+        }
+
+        public int GetProductsCount(string search)
+        {
+            using (var context = new CBContext())
+            {
+                if (!string.IsNullOrEmpty(search))
+                {
+                    return context.Products.Where(product => product.Name != null &&
+                         product.Name.ToLower().Contains(search.ToLower()))
+                         .Count();
+                }
+                else
+                {
+                    return context.Products.Count();
+                }
+            }
+        }
+
+        public List<Product> GetProductsByCategoryID(int categoryID, int pageSize)
+        {
+            using (var context = new CBContext())
+            {
+                return context.Products.Where(x => x.Category.ID == categoryID).OrderByDescending(x => x.ID).Take(pageSize).Include(x => x.Category).ToList();
+            }
+        }
+
+        public List<Product> GetLatestProducts(int numberOfProducts)
+        {
+            using (var context = new CBContext())
+            {
+                return context.Products.OrderByDescending(x => x.ID).Take(numberOfProducts).Include(x => x.Category).ToList();
+            }
+        }
+
+        public void SaveProduct(Product product)
+        {
+            using (var context = new CBContext())
+            {
+                context.Entry(product.Category).State = System.Data.Entity.EntityState.Unchanged;
+
+                context.Products.Add(product);
+                context.SaveChanges();
+            }
+        }
+
         public void UpdateProduct(Product product)
         {
-            using (var Context = new CBContext())
+            using (var context = new CBContext())
             {
-               
-                Context.Entry(product).State = EntityState.Modified;
-                Context.SaveChanges();
-
+                context.Entry(product).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
             }
         }
+
         public void DeleteProduct(int ID)
         {
-            using (var Context = new CBContext())
+            using (var context = new CBContext())
             {
-                var product = GetProduct(ID);
-                Context.Entry(product).State = EntityState.Deleted;
-                //Context.Products.Remove(product);
-                Context.SaveChanges();
+                var product = context.Products.Find(ID);
+
+                context.Products.Remove(product);
+                context.SaveChanges();
             }
         }
     }

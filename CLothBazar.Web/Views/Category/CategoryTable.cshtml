@@ -45,23 +45,30 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var Category in Model.Categories)
+            @if (Model.Categories != null && Model.Categories.Count > 0)
             {
-                <tr>
-                    <td>@Category.Name</td>
-                    <td>
-                        @Category.Products.Count()
-                    </td>
-                    <td>
-                        <button class="EditBtn" data-id="@Category.ID">Edit</button>
-                        <button class="DeleteBtn" data-id="@Category.ID">Delete</button>
-                    </td>
-                </tr>
+                foreach (var Category in Model.Categories)
+                {
+                    <tr>
+                        <td>@Category.Name</td>
+                        <td>
+                            @Category.Products.Count()
+                        </td>
+                        <td>
+                            <button class="EditBtn" data-id="@Category.ID">Edit</button>
+                            <button class="DeleteBtn" data-id="@Category.ID">Delete</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="3" class="text-danger">No Categories found.</td></tr>
             }
         </tbody>
     </table>
     <div>
-        @if (Model.Pager != null)
+        @if (Model.Pager != null && Model.Pager.TotalPages > 1)
         {
             if (Model.Pager.CurrentPage > 1)
             {

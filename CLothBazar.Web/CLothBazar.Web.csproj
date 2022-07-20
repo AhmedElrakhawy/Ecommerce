@@ -44,6 +44,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -145,12 +151,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
@@ -176,6 +176,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Code\Enum.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -187,6 +188,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202207071648028_Identityuser.cs" />
+    <Compile Include="Migrations\202207071648028_Identityuser.Designer.cs">
+      <DependentUpon>202207071648028_Identityuser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202207161455552_AddingMorePropertiesToUser.cs" />
+    <Compile Include="Migrations\202207161455552_AddingMorePropertiesToUser.Designer.cs">
+      <DependentUpon>202207161455552_AddingMorePropertiesToUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202207191804592_AddingQuantityColumnToOrderItemTable.cs" />
+    <Compile Include="Migrations\202207191804592_AddingQuantityColumnToOrderItemTable.Designer.cs">
+      <DependentUpon>202207191804592_AddingQuantityColumnToOrderItemTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -195,12 +209,12 @@
     <Compile Include="ViewModel\BaseListingViewModel.cs" />
     <Compile Include="ViewModel\CategorySearchViewModel.cs" />
     <Compile Include="ViewModel\CategoryViewModel.cs" />
-    <Compile Include="ViewModel\CheckOutViewModel.cs" />
+    <Compile Include="ViewModel\ShopViewModel.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\NewCategoryViewModel.cs" />
     <Compile Include="ViewModel\ProductSearchViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
-    <Compile Include="ViewModel\WidgetViewModel.cs" />
+    <Compile Include="ViewModel\ProductWidgetViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
@@ -242,6 +256,8 @@
     <Content Include="Content\images\blog\new-lastest-8-370x280.jpg" />
     <Content Include="Content\images\blog\new-lastest-9-370x280.jpg" />
     <Content Include="Content\images\blog\search_icon.png" />
+    <Content Include="Content\images\Shopify.png" />
+    <Content Include="Content\images\NoProducts.png" />
     <Content Include="Content\images\gallery\gallery-1-870x377.jpg" />
     <Content Include="Content\images\gallery\gallery-2-870x377.jpg" />
     <Content Include="Content\images\image-box\imgbox-1-1173x620.jpg" />
@@ -554,8 +570,10 @@
     <Content Include="Views\Product\ProductTable.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
-    <Content Include="Views\Widgets\Products.cshtml" />
     <Content Include="Views\Product\Details.cshtml" />
+    <Content Include="Views\Widgets\Products.cshtml" />
+    <Content Include="Views\Shop\Index.cshtml" />
+    <Content Include="Views\Shop\FilterProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -569,6 +587,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClothBazar.database\ClothBazar.database.csproj">
+      <Project>{df4b162a-a0c3-4dc4-8dbc-4014c98bc2d8}</Project>
+      <Name>ClothBazar.database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ClothBazar.Entities\ClothBazar.Entities.csproj">
       <Project>{472AED7D-B4AA-429A-8546-75EAFC67FF13}</Project>
       <Name>ClothBazar.Entities</Name>
@@ -580,6 +602,17 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202207071648028_Identityuser.resx">
+      <DependentUpon>202207071648028_Identityuser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207161455552_AddingMorePropertiesToUser.resx">
+      <DependentUpon>202207161455552_AddingMorePropertiesToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207191804592_AddingQuantityColumnToOrderItemTable.resx">
+      <DependentUpon>202207191804592_AddingQuantityColumnToOrderItemTable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

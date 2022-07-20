@@ -14,7 +14,9 @@ namespace ClothBazar.Web.Controllers
         public ActionResult Products(bool isLatestProducts, int? CategoryID)
         {
             var Model = new ProductsWidgetViewModel();
+
             Model.IsLatestProducts = isLatestProducts;
+
             if (isLatestProducts)
             {
                 Model.Products = ProductsService.Instance.GetLatestProducts(4);

@@ -72,9 +72,9 @@
         </tbody>
     </table>
     <div>
-        @if (Model.Pager != null)
+        @if (Model.Pager != null & Model.Pager.TotalPages > 1)
         {
-            if (Model.Pager.CurrentPage > 1)
+            if (Model.Pager.CurrentPage > 1 )
             {
                 <button class="PageButtons" data-PageNo="1">First</button>
                 <button class="PageButtons" data-PageNo="@(Model.Pager.CurrentPage -1)">Previous</button>

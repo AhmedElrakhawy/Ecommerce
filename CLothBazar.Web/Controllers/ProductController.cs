@@ -14,20 +14,14 @@ namespace ClothBazar.Web.Controllers
         }
         public ActionResult ProductTable(string Search, int? PageNo)
         {
+            var pageSize = ConfigurationService.Instance.PageSize();
             var Model = new ProductSearchViewModel();
             Model.SearchTerm = Search;
             PageNo = PageNo.HasValue ? PageNo.Value > 0 ? PageNo.Value : 1 : 1;
             var TotalRecords = ProductsService.Instance.GetProductsCount(Search);
-            Model.Products = ProductsService.Instance.GetProducts(Search, PageNo.Value);
-            if (Model.Products != null)
-            {
-                Model.Pager = new Pager(TotalRecords, PageNo, 6);
+            Model.Products = ProductsService.Instance.GetProducts(Search, PageNo.Value , pageSize);
+                Model.Pager = new Pager(TotalRecords, PageNo, pageSize);
                 return PartialView("ProductTable", Model);
-            }
-            else
-            {
-                return HttpNotFound();
-            }
         }
 
         [HttpGet]
@@ -46,7 +40,7 @@ namespace ClothBazar.Web.Controllers
             NewProduct.Price = Model.Price;
             NewProduct.ImageUrl = Model.ImageUrl;
             NewProduct.Category = CategoriesService.Instance.GetCategory(Model.CategoryID);
-            ProductsService.Instance.Save(NewProduct);
+            ProductsService.Instance.SaveProduct(NewProduct);
             return RedirectToAction("ProductTable");
         }
         [HttpGet]
@@ -71,9 +65,12 @@ namespace ClothBazar.Web.Controllers
             ExcistingProduct.Description = Model.Description;
             ExcistingProduct.Price = Model.Price;
 
-            ExcistingProduct.ImageUrl = Model.ImageUrl;
             ExcistingProduct.Category = null;
             ExcistingProduct.CategoryID = Model.CategoryID;
+            if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                ExcistingProduct.ImageUrl = Model.ImageUrl;
+            }
             ProductsService.Instance.UpdateProduct(ExcistingProduct);
             return RedirectToAction("ProductTable");
         }
@@ -89,6 +86,7 @@ namespace ClothBazar.Web.Controllers
         {
             var Model = new ProductViewModel();
             Model.Product = ProductsService.Instance.GetProduct(ID);
+            if (Model.Product == null) return HttpNotFound();
             return View(Model);
         }
     }

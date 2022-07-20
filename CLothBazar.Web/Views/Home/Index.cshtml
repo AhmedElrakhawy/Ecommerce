@@ -1,10 +1,6 @@
 ﻿@model ClothBazar.Web.ViewModel.HomeViewModel
 @{
     ViewBag.Title = "Home Page";
-    var FirstCategory = Model.FeaturedCategories[0];
-    var SecondCategory = Model.FeaturedCategories[1];
-    var ThirdCategory = Model.FeaturedCategories[2];
-    var ForthCategory = Model.FeaturedCategories[3];
 }
 
 <!-- SLIDER -->
@@ -14,7 +10,7 @@
             <!-- Slide 1 -->
             <li data-transition="random">
                 <!-- Main Image -->
-                <img src="~/Content/images/slider/slider-bg-5.jpg" alt="" data-bgposition="center center" data-no-retina>
+                <img src="/Content/images/slider/slider-bg-5.jpg" alt="" data-bgposition="center center" data-no-retina>
 
                 <!-- Layers -->
                 <div class="tp-caption tp-resizeme text-white font-weight-300"
@@ -186,84 +182,93 @@
 </div>
 <!-- END SLIDER -->
 <!-- IMAGE BOX -->
-<section class="flat-row row-image-box">
-    <div class="container">
-        <div class="row gutter-10">
-            <div class="col-sm-6 col-md-4">
-                <div class="flat-image-box style-1 data-effect div-h22 clearfix">
-                    <div class="item data-effect-item">
-                        <div class="inner">
-                            @if (FirstCategory != null)
-                            {
-                                <div class="thumb">
-                                    <img src="@FirstCategory.ImageUrl" alt="Image">
-                                    <div class="elm-btn">
-                                        <a href="#" class="themesflat-button bg-white width-150">@FirstCategory.Name</a>
+@if (Model.FeaturedCategories != null & Model.FeaturedCategories.Count >= 4)
+{
+    var FirstCategory = Model.FeaturedCategories[0];
+    var SecondCategory = Model.FeaturedCategories[1];
+    var ThirdCategory = Model.FeaturedCategories[2];
+    var ForthCategory = Model.FeaturedCategories[3];
+
+
+    <section class="flat-row row-image-box">
+        <div class="container">
+            <div class="row gutter-10">
+                <div class="col-sm-6 col-md-4">
+                    <div class="flat-image-box style-1 data-effect div-h22 clearfix">
+                        <div class="item data-effect-item">
+                            <div class="inner">
+                                @if (FirstCategory != null)
+                                {
+                                    <div class="thumb">
+                                        <img src="@FirstCategory.ImageUrl" alt="Image">
+                                        <div class="elm-btn">
+                                            <a href="#" class="themesflat-button bg-white width-150">@FirstCategory.Name</a>
+                                        </div>
+                                        <div class="overlay-effect bg-color-1"></div>
                                     </div>
-                                    <div class="overlay-effect bg-color-1"></div>
-                                </div>
-                            }
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div><!-- /.col-md-4 -->
-            <div class="col-sm-6 col-md-4">
-                <div class="flat-image-box style-1 row2 data-effect clearfix">
-                    <div class="item data-effect-item">
-                        <div class="inner">
-                            @if (SecondCategory != null)
-                            {
-                                <div class="thumb">
-                                    <img src="@SecondCategory.ImageUrl" alt="Image">
-                                    <div class="elm-btn">
-                                        <a href="#" class="themesflat-button bg-white width-150">@SecondCategory.Name</a>
+                </div><!-- /.col-md-4 -->
+                <div class="col-sm-6 col-md-4">
+                    <div class="flat-image-box style-1 row2 data-effect clearfix">
+                        <div class="item data-effect-item">
+                            <div class="inner">
+                                @if (SecondCategory != null)
+                                {
+                                    <div class="thumb">
+                                        <img src="@SecondCategory.ImageUrl" alt="Image">
+                                        <div class="elm-btn">
+                                            <a href="#" class="themesflat-button bg-white width-150">@SecondCategory.Name</a>
+                                        </div>
+                                        <div class="overlay-effect bg-color-1"></div>
                                     </div>
-                                    <div class="overlay-effect bg-color-1"></div>
-                                </div>
-                            }
+                                }
 
+                            </div>
+                        </div>
+
+                        <div class="item data-effect-item">
+                            <div class="inner">
+                                @if (ThirdCategory != null)
+                                {
+                                    <div class="thumb">
+                                        <img src="@ThirdCategory.ImageUrl" alt="Image">
+                                        <div class="elm-btn">
+                                            <a href="#" class="themesflat-button bg-white width-150">@ThirdCategory.Name</a>
+                                        </div>
+                                        <div class="overlay-effect bg-color-1"></div>
+                                    </div>
+                                }
+
+                            </div>
                         </div>
                     </div>
-
-                    <div class="item data-effect-item">
-                        <div class="inner">
-                            @if (ThirdCategory != null)
-                            {
-                                <div class="thumb">
-                                    <img src="@ThirdCategory.ImageUrl" alt="Image">
-                                    <div class="elm-btn">
-                                        <a href="#" class="themesflat-button bg-white width-150">@ThirdCategory.Name</a>
+                </div><!-- /.col-md-4 -->
+                <div class="col-sm-6 col-md-4">
+                    <div class="flat-image-box style-1 data-effect div-h20 clearfix">
+                        <div class="item data-effect-item">
+                            <div class="inner">
+                                @if (ForthCategory != null)
+                                {
+                                    <div class="thumb">
+                                        <img src="@ForthCategory.ImageUrl" alt="Image">
+                                        <div class="elm-btn">
+                                            <a href="#" class="themesflat-button bg-white width-150">@ForthCategory.Name</a>
+                                        </div>
+                                        <div class="overlay-effect bg-color-1"></div>
                                     </div>
-                                    <div class="overlay-effect bg-color-1"></div>
-                                </div>
-                            }
+                                }
 
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div><!-- /.col-md-4 -->
-            <div class="col-sm-6 col-md-4">
-                <div class="flat-image-box style-1 data-effect div-h20 clearfix">
-                    <div class="item data-effect-item">
-                        <div class="inner">
-                            @if (ForthCategory != null)
-                            {
-                                <div class="thumb">
-                                    <img src="@ForthCategory.ImageUrl" alt="Image">
-                                    <div class="elm-btn">
-                                        <a href="#" class="themesflat-button bg-white width-150">@ForthCategory.Name</a>
-                                    </div>
-                                    <div class="overlay-effect bg-color-1"></div>
-                                </div>
-                            }
-
-                        </div>
-                    </div>
-                </div>
-            </div><!-- /.col-md-4 -->
-        </div><!-- /.row -->
-    </div><!-- /.container -->
-</section>
+                </div><!-- /.col-md-4 -->
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </section>
+}
 <!-- END IMAGE BOX -->
 <!-- PRODUCT NEW -->
 <section class="flat-row row-product-new">
@@ -275,7 +280,7 @@
                         New Product
                     </h2>
                 </div>
-               @{Html.RenderAction("Products", "Widgets", new { isLatestProducts= true });}
+                @{Html.RenderAction("Products", "Widgets", new { isLatestProducts = true });}
             </div>
         </div><!-- /.row -->
     </div><!-- /.container -->
@@ -311,7 +316,7 @@
                 </div>
                 <div class="divider h54"></div>
                 @{Html.RenderAction("Products", "Widgets", new { isLatestProducts = false });}
-                
+
             </div>
         </div>
     </div>
@@ -378,172 +383,5 @@
 </section>
 <!-- END ICON BOX -->
 <!-- NEW LATEST -->
-<section class="flat-row row-new-latest">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="title-section margin-bottom-40">
-                    <h2 class="title">New Latest</h2>
-                </div>
-                <div class="new-latest-wrap">
-                    <div class="flat-new-latest flat-carousel-box post-wrap style3 data-effect clearfix" data-auto="false" data-column="3" data-column2="2" data-column3="1" data-gap="30">
-                        <div class="owl-carousel owl-theme">
-                            <article class="post clearfix">
-                                <div class="featured-post data-effect-item">
-                                    <img src="~/Content/images/blog/new-lastest-1-370x280.jpg" alt="image">
-                                    <div class="content-post text-center">
-                                        <div class="title-post">
-                                            <h2><a href="blog-detail.html">Trend Of 2018</a></h2>
-                                        </div><!-- /.title-post -->
-                                        <ul class="meta-post">
-                                            <li class="date">
-                                                OCT 08, 2018
-                                            </li>
-                                            <li class="author">
-                                                <a href="#">BY ADMIN</a>
-                                            </li>
-                                        </ul><!-- /.meta-post -->
-                                        <div class="entry-post">
-                                            <p>This is Heading the bank manager long ago won the battle for the heart of...</p>
-                                            <div class="more-link">
-                                                <a href="blog-detail.html">READ MORE</a>
-                                            </div>
-                                        </div>
-                                    </div><!-- /.content-post -->
-                                    <div class="overlay-effect bg-overlay-black"></div>
-                                </div>
-                            </article><!-- /.post -->
-                            <article class="post clearfix">
-                                <div class="featured-post data-effect-item">
-                                    <img src="~/Content/images/blog/new-lastest-2-370x280.jpg" alt="image">
-                                    <div class="content-post text-center">
-                                        <div class="title-post">
-                                            <h2><a href="blog-detail.html">Trend Of 2018</a></h2>
-                                        </div><!-- /.title-post -->
-                                        <ul class="meta-post">
-                                            <li class="date">
-                                                OCT 08, 2018
-                                            </li>
-                                            <li class="author">
-                                                <a href="#">BY ADMIN</a>
-                                            </li>
-                                        </ul><!-- /.meta-post -->
-                                        <div class="entry-post">
-                                            <p>This is Heading the bank manager long ago won the battle for the heart of...</p>
-                                            <div class="more-link">
-                                                <a href="blog-detail.html">READ MORE</a>
-                                            </div>
-                                        </div>
-                                    </div><!-- /.content-post -->
-                                    <div class="overlay-effect bg-overlay-black"></div>
-                                </div>
-                            </article><!-- /.post -->
-                            <article class="post clearfix">
-                                <div class="featured-post data-effect-item">
-                                    <img src="~/Content/images/blog/new-lastest-3-370x280.jpg" alt="image">
-                                    <div class="content-post text-center">
-                                        <div class="title-post">
-                                            <h2><a href="blog-detail.html">Trend Of 2018</a></h2>
-                                        </div><!-- /.title-post -->
-                                        <ul class="meta-post">
-                                            <li class="date">
-                                                OCT 08, 2018
-                                            </li>
-                                            <li class="author">
-                                                <a href="#">BY ADMIN</a>
-                                            </li>
-                                        </ul><!-- /.meta-post -->
-                                        <div class="entry-post">
-                                            <p>This is Heading the bank manager long ago won the battle for the heart of...</p>
-                                            <div class="more-link">
-                                                <a href="blog-detail.html">READ MORE</a>
-                                            </div>
-                                        </div>
-                                    </div><!-- /.content-post -->
-                                    <div class="overlay-effect bg-overlay-black"></div>
-                                </div>
-                            </article><!-- /.post -->
-                            <article class="post clearfix">
-                                <div class="featured-post data-effect-item">
-                                    <img src="~/Content/images/blog/new-lastest-1-370x280.jpg" alt="image">
-                                    <div class="content-post text-center">
-                                        <div class="title-post">
-                                            <h2><a href="blog-detail.html">Trend Of 2018</a></h2>
-                                        </div><!-- /.title-post -->
-                                        <ul class="meta-post">
-                                            <li class="date">
-                                                OCT 08, 2018
-                                            </li>
-                                            <li class="author">
-                                                <a href="#">BY ADMIN</a>
-                                            </li>
-                                        </ul><!-- /.meta-post -->
-                                        <div class="entry-post">
-                                            <p>This is Heading the bank manager long ago won the battle for the heart of...</p>
-                                            <div class="more-link">
-                                                <a href="blog-detail.html">READ MORE</a>
-                                            </div>
-                                        </div>
-                                    </div><!-- /.content-post -->
-                                    <div class="overlay-effect bg-overlay-black"></div>
-                                </div>
-                            </article><!-- /.post -->
-                            <article class="post clearfix">
-                                <div class="featured-post data-effect-item">
-                                    <img src="~/Content/images/blog/new-lastest-2-370x280.jpg" alt="image">
-                                    <div class="content-post text-center">
-                                        <div class="title-post">
-                                            <h2><a href="blog-detail.html">Trend Of 2018</a></h2>
-                                        </div><!-- /.title-post -->
-                                        <ul class="meta-post">
-                                            <li class="date">
-                                                OCT 08, 2018
-                                            </li>
-                                            <li class="author">
-                                                <a href="#">BY ADMIN</a>
-                                            </li>
-                                        </ul><!-- /.meta-post -->
-                                        <div class="entry-post">
-                                            <p>This is Heading the bank manager long ago won the battle for the heart of...</p>
-                                            <div class="more-link">
-                                                <a href="blog-detail.html">READ MORE</a>
-                                            </div>
-                                        </div>
-                                    </div><!-- /.content-post -->
-                                    <div class="overlay-effect bg-overlay-black"></div>
-                                </div>
-                            </article><!-- /.post -->
-                            <article class="post clearfix">
-                                <div class="featured-post data-effect-item">
-                                    <img src="~/Content/images/blog/new-lastest-3-370x280.jpg" alt="image">
-                                    <div class="content-post text-center">
-                                        <div class="title-post">
-                                            <h2><a href="blog-detail.html">Trend Of 2018</a></h2>
-                                        </div><!-- /.title-post -->
-                                        <ul class="meta-post">
-                                            <li class="date">
-                                                OCT 08, 2018
-                                            </li>
-                                            <li class="author">
-                                                <a href="#">BY ADMIN</a>
-                                            </li>
-                                        </ul><!-- /.meta-post -->
-                                        <div class="entry-post">
-                                            <p>This is Heading the bank manager long ago won the battle for the heart of...</p>
-                                            <div class="more-link">
-                                                <a href="blog-detail.html">READ MORE</a>
-                                            </div>
-                                        </div>
-                                    </div><!-- /.content-post -->
-                                    <div class="overlay-effect bg-overlay-black"></div>
-                                </div>
-                            </article><!-- /.post -->
-                        </div><!-- /.owl-carousel -->
-                    </div>
-                </div>
 
-            </div>
-        </div>
-    </div>
-</section>
 <!-- END NEW LATEST -->

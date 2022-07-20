@@ -41,9 +41,10 @@ namespace ClothBazar.Web.Controllers
         [HttpPost]
         public ActionResult Create(NewCategoryViewModel Model)
         {
-            var NewCategory = new Category();
+            
             if (ModelState.IsValid)
             {
+                var NewCategory = new Category();
                 NewCategory.Name = Model.Name;
                 NewCategory.Description = Model.Description;
                 NewCategory.IsFeatured = Model.IsFeatsured;
@@ -68,14 +69,14 @@ namespace ClothBazar.Web.Controllers
             model.Description = category.Description;
             model.ImageUrl = category.ImageUrl;
             model.IsFeatured = category.IsFeatured;
+
             return PartialView(model);
         }
 
         [HttpPost]
         public ActionResult Edit(EditCategoryViewModel Model)
         {
-            var Category = new Category();
-            Category.ID = Model.ID;
+            var Category = CategoriesService.Instance.GetCategory(Model.ID);
             Category.Name = Model.Name;
             Category.Description = Model.Description;
             Category.IsFeatured = Model.IsFeatured;
@@ -88,6 +89,7 @@ namespace ClothBazar.Web.Controllers
         public ActionResult Delete(int ID)
         {
             CategoriesService.Instance.DeleteCategory(ID);
+
             return RedirectToAction("CategoryTable");
         }
     }
